@@ -1,17 +1,32 @@
 import { useEffect, useState } from "react";
-import { useParams } from "react-router";
+import { useQuery } from "../hooks/useQuery";
 import { get } from "../utils/httpClient";
 import { MovieCard } from "./MovieCard";
 import styles from "./MoviesGrid.module.css";
+import Spinner from "./Spinner";
 
 export function MoviesGrid() {
+  
   const [movies, setMovies] = useState([]);
+  const [isLoading, setisLoading] = useState(true)
+
+  const query = useQuery()
+  const search = query.get("search")
 
   useEffect(() => {
-    get("/discover/movie").then((data) => {
+    setisLoading(true);
+    const searchUrl = search
+      ? `/search/movie?query=${search}`
+      : "/discover/movie";
+    get(searchUrl).then((data) => {
       setMovies(data.results);
+      setisLoading(false);
     });
-  }, []);
+  }, [search]);
+
+  if (isLoading) {
+    return <Spinner/>
+  }
 
   return (
     <ul className={styles.moviesGrid}>
