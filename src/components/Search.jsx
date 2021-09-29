@@ -12,7 +12,7 @@ export default function Search() {
   const handleSubmit = (e) => {
     e.preventDefault();
   };
-  
+
   return (
     <form className={styles.searchContainer} onSubmit={handleSubmit}>
       <div className={styles.searchBox}>
@@ -20,14 +20,14 @@ export default function Search() {
           className={styles.searchInput}
           type="text"
           value={search}
+          placeholder="Title"
+          aria-label="Search Movies"
           onChange={(e) => {
             const value = e.target.value;
             history.push(`/?search=${value}`);
           }}
         />
-        <button className={styles.searchButton} type="submit">
-          <FaSearch size={20} />
-        </button>
+        <FaSearch size={20} color="black" className={styles.searchButton} />
       </div>
     </form>
   );
